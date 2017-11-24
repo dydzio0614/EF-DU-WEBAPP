@@ -24,6 +24,7 @@ namespace TestXpert.Services
             mailMessage.From = new MailAddress("txpsender@gmail.com");
             mailMessage.To.Add(email);
             mailMessage.Subject = subject;
+            mailMessage.IsBodyHtml = true;
             mailMessage.Body = message;
             client.Send(mailMessage);
 
