@@ -11,7 +11,7 @@ namespace TestXpert.Data
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; } //test name
+        public string Name { get; set; }
         [Required]
         public ICollection<Question> Questions { get; set; }
 

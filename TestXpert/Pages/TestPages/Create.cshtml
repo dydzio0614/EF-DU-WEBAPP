@@ -1,0 +1,93 @@
+@page
+@model TestXpert.Pages.TestPages.CreateModel
+
+@{ //entity classes reminder
+/*public class Test
+{
+    [Key]
+    public int Id { get; set; }
+    [Required]
+    public string Name { get; set; }
+    [Required]
+    public ICollection<Question> Questions { get; set; }
+} 
+
+public class Question
+{
+    [Key]
+    public int Id { get; set; }
+    [Required]
+    public string Description { get; set; } //content of the question
+    [Required]
+    public ICollection<Answer> Answers { get; set; } //ordered list of answer contents
+    [Required]
+    public int Points { get; set; }
+    [Required]
+    public int CorrectAnswer { get; set; } //subject to change when system grows (multiple correct answers available etc. Database change not a big deal while app still in development
+} */
+}
+
+
+@{
+    ViewData["Title"] = "Create";
+    Model.Test.Questions = new List<Question>(); //throws exception... not initialized... I give up
+    Model.Test.Questions.Add(new Question() { Id = 0 }); //Wrong - Id of a row in database should not be set
+    Model.Test.Questions.ElementAt(0).Answers = new List<Answer>();
+    Model.Test.Questions.ElementAt(0).Answers.Add(new Answer() { Id = 0 });
+    Model.Test.Questions.ElementAt(0).Answers.Add(new Answer() { Id = 1 });
+}
+
+<h2>Create</h2>
+
+<h4>Test</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Test.Name" class="control-label"></label>
+                <input asp-for="Test.Name" class="form-control" />
+                <span asp-validation-for="Test.Name" class="text-danger"></span>
+            </div>
+            
+        @for(int i = 0; i <Model.Test.Questions.Count; i++)
+        {
+            <div class="form-group">
+                <label asp-for="Test.Questions.ElementAt(i).Points" class="control-label"></label>
+                <input asp-for="Test.Questions.ElementAt(i).Points" class="form-control" />
+                <span asp-validation-for="Test.Questions.ElementAt(i).Points" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Test.Questions.ElementAt(i).Description" class="control-label"></label>
+                <input asp-for="Test.Questions.ElementAt(i).Description" class="form-control" />
+                <span asp-validation-for="Test.Questions.ElementAt(i).Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Test.Questions.ElementAt(i).CorrectAnswer" class="control-label"></label>
+                <input asp-for="Test.Questions.ElementAt(i).CorrectAnswer" class="form-control" />
+                <span asp-validation-for="Test.Questions.ElementAt(i).CorrectAnswer" class="text-danger"></span>
+            </div>
+            @for (int j = 0; j < Model.Test.Questions.Count; j++)
+            {
+                <div class="form-group">
+                    <label asp-for="Test.Questions.ElementAt(i).Answers.ElementAt(j).Content" class="control-label"></label>
+                    <input asp-for="Test.Questions.ElementAt(i).Answers.ElementAt(j).Content" class="form-control" />
+                    <span asp-validation-for="Test.Questions.ElementAt(i).Answers.ElementAt(j).Content" class="text-danger"></span>
+                </div>
+            }
+        }
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
