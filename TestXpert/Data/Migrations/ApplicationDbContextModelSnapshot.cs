@@ -128,7 +128,7 @@ namespace TestXpert.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("TestXpert.Data.Answer", b =>
+            modelBuilder.Entity("TestXpert.Models.Answer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -145,7 +145,7 @@ namespace TestXpert.Data.Migrations
                     b.ToTable("Answers");
                 });
 
-            modelBuilder.Entity("TestXpert.Data.ApplicationUser", b =>
+            modelBuilder.Entity("TestXpert.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -196,7 +196,7 @@ namespace TestXpert.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("TestXpert.Data.Question", b =>
+            modelBuilder.Entity("TestXpert.Models.Question", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -217,7 +217,7 @@ namespace TestXpert.Data.Migrations
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("TestXpert.Data.Test", b =>
+            modelBuilder.Entity("TestXpert.Models.Test", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -240,7 +240,7 @@ namespace TestXpert.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TestXpert.Data.ApplicationUser")
+                    b.HasOne("TestXpert.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -248,7 +248,7 @@ namespace TestXpert.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TestXpert.Data.ApplicationUser")
+                    b.HasOne("TestXpert.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -261,7 +261,7 @@ namespace TestXpert.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("TestXpert.Data.ApplicationUser")
+                    b.HasOne("TestXpert.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -269,22 +269,22 @@ namespace TestXpert.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("TestXpert.Data.ApplicationUser")
+                    b.HasOne("TestXpert.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TestXpert.Data.Answer", b =>
+            modelBuilder.Entity("TestXpert.Models.Answer", b =>
                 {
-                    b.HasOne("TestXpert.Data.Question")
+                    b.HasOne("TestXpert.Models.Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId");
                 });
 
-            modelBuilder.Entity("TestXpert.Data.Question", b =>
+            modelBuilder.Entity("TestXpert.Models.Question", b =>
                 {
-                    b.HasOne("TestXpert.Data.Test")
+                    b.HasOne("TestXpert.Models.Test")
                         .WithMany("Questions")
                         .HasForeignKey("TestId");
                 });
