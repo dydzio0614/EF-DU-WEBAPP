@@ -34,6 +34,7 @@ namespace TestXpert.Controllers
             }
 
             var question = await _context.Questions
+                .Include(q => q.Answers)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (question == null)
             {
@@ -54,7 +55,7 @@ namespace TestXpert.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description,Points,CorrectAnswer")] Question question)
+        public async Task<IActionResult> Create([Bind("Description,Points,Answers,CorrectAnswer")] Question question)
         {
             if (ModelState.IsValid)
             {
