@@ -13,7 +13,7 @@ namespace TestXpert.Models
         [Required]
         public string Description { get; set; } //content of the question
         [Required]
-        public Answer Answers { get; set; } //dumbed down for now from ICollection<Answer> for debug purposes - ordered list of answer contents
+        public ICollection<Answer> Answers { get; set; }
         [Required]
         public int Points { get; set; }
         [Required]
