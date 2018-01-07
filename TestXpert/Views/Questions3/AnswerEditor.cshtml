@@ -1,0 +1,12 @@
+﻿@using HtmlHelpers.BeginCollectionItemCore
+@model TestXpert.Models.Answer
+
+@using (Html.BeginCollectionItem("Answers"))
+{
+    <div>
+        @Html.LabelFor(x => x.Content)
+        @Html.EditorFor(x => x.Content)
+        @Html.ValidationMessageFor(x => x.Content)
+    </div>
+}
+
