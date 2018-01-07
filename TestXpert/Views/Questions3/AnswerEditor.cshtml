@@ -2,11 +2,8 @@
 @model TestXpert.Models.Answer
 
 @using (Html.BeginCollectionItem("Answers"))
-{
-    <div>
-        @Html.LabelFor(x => x.Content)
-        @Html.EditorFor(x => x.Content)
+{      
+        @Html.TextBoxFor(x => x.Content, new { @class = "form-control" })
         @Html.ValidationMessageFor(x => x.Content)
-    </div>
 }
 

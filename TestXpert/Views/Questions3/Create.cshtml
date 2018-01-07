@@ -23,8 +23,10 @@
                 <span asp-validation-for="Points" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @for(var i = 0; i < 4; i++)
+                @for (var i = 1; i <= 4; i++)
                 {
+                    <label class="control-label">Answer @i</label>
+                    <br />
                     Html.RenderPartial("AnswerEditor", new Answer());
                 }
             </div>
