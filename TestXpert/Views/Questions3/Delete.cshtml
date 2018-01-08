@@ -23,6 +23,15 @@
         <dd>
             @Html.DisplayFor(model => model.Points)
         </dd>
+        @foreach (var answer in Model.Answers)
+        {
+            <dt>
+                <label class="control-label">Answer</label>
+            </dt>
+            <dd>
+                @{Html.RenderPartial("AnswerTBoxReadOnly", answer);}
+            </dd>
+        }
         <dt>
             @Html.DisplayNameFor(model => model.CorrectAnswer)
         </dt>

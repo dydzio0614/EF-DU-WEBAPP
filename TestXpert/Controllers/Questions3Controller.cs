@@ -74,7 +74,9 @@ namespace TestXpert.Controllers
                 return NotFound();
             }
 
-            var question = await _context.Questions.SingleOrDefaultAsync(m => m.Id == id);
+            var question = await _context.Questions
+                .Include(s => s.Answers)
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (question == null)
             {
                 return NotFound();
@@ -126,6 +128,7 @@ namespace TestXpert.Controllers
             }
 
             var question = await _context.Questions
+                .Include(m => m.Answers)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (question == null)
             {
@@ -140,7 +143,10 @@ namespace TestXpert.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var question = await _context.Questions.SingleOrDefaultAsync(m => m.Id == id);
+            var question = await _context.Questions
+                .Include(m => m.Answers)
+                .SingleOrDefaultAsync(m => m.Id == id);
+
             _context.Questions.Remove(question);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

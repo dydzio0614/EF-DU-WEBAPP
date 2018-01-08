@@ -22,22 +22,22 @@
         <dd>
             @Html.DisplayFor(model => model.Points)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CorrectAnswer)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CorrectAnswer)
-        </dd>
         @foreach (var answer in Model.Answers)
         {
             <dt>
-                @Html.DisplayNameFor(model => answer.Content)
+                @Html.DisplayNameFor(model => model.Answers)
             </dt>
             <dd>
                 @Html.DisplayFor(model => answer.Content)
             </dd>
 
         }
+        <dt>
+            @Html.DisplayNameFor(model => model.CorrectAnswer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CorrectAnswer)
+        </dd>
     </dl>
 </div>
 <div>

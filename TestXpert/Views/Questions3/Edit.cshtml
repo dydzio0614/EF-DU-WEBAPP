@@ -24,6 +24,14 @@
                 <span asp-validation-for="Points" class="text-danger"></span>
             </div>
             <div class="form-group">
+                @foreach(var answer in Model.Answers)
+                {
+                    <label class="control-label">Answer</label>
+                    <br />
+                    Html.RenderPartial("AnswerEditor", answer);
+                }
+            </div>
+            <div class="form-group">
                 <label asp-for="CorrectAnswer" class="control-label"></label>
                 <input asp-for="CorrectAnswer" class="form-control" />
                 <span asp-validation-for="CorrectAnswer" class="text-danger"></span>
