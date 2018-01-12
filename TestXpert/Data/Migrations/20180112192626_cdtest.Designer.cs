@@ -11,9 +11,10 @@ using TestXpert.Data;
 namespace TestXpert.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180112192626_cdtest")]
+    partial class cdtest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,11 +137,11 @@ namespace TestXpert.Data.Migrations
                     b.Property<string>("Content")
                         .IsRequired();
 
-                    b.Property<int?>("Question");
+                    b.Property<int>("QuestionId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Question");
+                    b.HasIndex("QuestionId");
 
                     b.ToTable("Answers");
                 });
@@ -277,9 +278,9 @@ namespace TestXpert.Data.Migrations
 
             modelBuilder.Entity("TestXpert.Models.Answer", b =>
                 {
-                    b.HasOne("TestXpert.Models.Question", "RelatedQuestion")
+                    b.HasOne("TestXpert.Models.Question")
                         .WithMany("Answers")
-                        .HasForeignKey("Question")
+                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

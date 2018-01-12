@@ -89,7 +89,7 @@ namespace TestXpert.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Description,Points,Answers,CorrectAnswer")] Question question)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,Points,Answers,CorrectAnswer")] Question question)
         {
             if (id != question.Id)
             {
@@ -100,8 +100,36 @@ namespace TestXpert.Controllers
             {
                 try
                 {
-                    _context.Update(question);
-                    await _context.SaveChangesAsync();
+                    /* ATTEMPT 1
+                    var storedQuestion = _context.Questions
+                    .Include(s => s.Answers)
+                    .SingleOrDefault(m => m.Id == id);
+
+                    //without below loop answers are cloned, not updated - answer ID's are not grabbed from view
+                    for (int i = 0; i < question.Answers.Count; i++) //copy answer ID - assume same amount of elements for edit as existing in db
+                    {
+                        question.Answers.ElementAt(i).Id = storedQuestion.Answers.ElementAt(i).Id;
+
+                        _context.Update(question);
+                        await _context.SaveChangesAsync();
+                    }*/
+
+                    /*ATTEMPT 2
+                    var storedQuestion = _context.Questions
+                    .Include(s => s.Answers)
+                    .SingleOrDefault(m => m.Id == id);
+                    _context.Remove(storedQuestion);
+                    _context.SaveChanges();
+
+                    _context.Add(question);
+                    _context.SaveChanges();*/
+
+                    var storedQuestion = _context.Questions
+                   .Include(s => s.Answers)
+                   .SingleOrDefault(m => m.Id == id);
+
+                    var result = TryUpdateModelAsync<Question>(storedQuestion, "", q => q.Description, q => q.Points, q => q.Answers, q => q.CorrectAnswer);
+                    await _context.SaveChangesAsync();                 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -114,7 +142,7 @@ namespace TestXpert.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Edit));
             }
             return View(question);
         }

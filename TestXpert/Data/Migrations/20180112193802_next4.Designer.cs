@@ -11,9 +11,10 @@ using TestXpert.Data;
 namespace TestXpert.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180112193802_next4")]
+    partial class next4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,7 +137,8 @@ namespace TestXpert.Data.Migrations
                     b.Property<string>("Content")
                         .IsRequired();
 
-                    b.Property<int?>("Question");
+                    b.Property<int?>("Question")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
