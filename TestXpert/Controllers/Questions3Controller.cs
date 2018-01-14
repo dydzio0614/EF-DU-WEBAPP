@@ -36,6 +36,7 @@ namespace TestXpert.Controllers
             var question = await _context.Questions
                 .Include(s => s.Answers)
                 .SingleOrDefaultAsync(m => m.Id == id);
+
             if (question == null)
             {
                 return NotFound();
@@ -77,6 +78,7 @@ namespace TestXpert.Controllers
             var question = await _context.Questions
                 .Include(s => s.Answers)
                 .SingleOrDefaultAsync(m => m.Id == id);
+
             if (question == null)
             {
                 return NotFound();
@@ -158,6 +160,7 @@ namespace TestXpert.Controllers
             var question = await _context.Questions
                 .Include(m => m.Answers)
                 .SingleOrDefaultAsync(m => m.Id == id);
+
             if (question == null)
             {
                 return NotFound();
