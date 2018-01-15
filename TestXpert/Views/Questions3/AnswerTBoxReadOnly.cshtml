@@ -1,0 +1,8 @@
+﻿@using HtmlHelpers.BeginCollectionItemCore
+@model TestXpert.Models.Answer
+
+@using (Html.BeginCollectionItem("Answers"))
+{      
+        @Html.TextBoxFor(x => x.Content, new { @class = "form-control", @readonly = "readonly"})
+}
+

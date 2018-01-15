@@ -11,9 +11,10 @@ using TestXpert.Data;
 namespace TestXpert.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180112193227_next3")]
+    partial class next3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,8 +202,6 @@ namespace TestXpert.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ApplicationUser");
-
                     b.Property<int>("CorrectAnswer");
 
                     b.Property<string>("Description")
@@ -213,8 +212,6 @@ namespace TestXpert.Data.Migrations
                     b.Property<int?>("TestId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUser");
 
                     b.HasIndex("TestId");
 
@@ -283,16 +280,11 @@ namespace TestXpert.Data.Migrations
                 {
                     b.HasOne("TestXpert.Models.Question", "RelatedQuestion")
                         .WithMany("Answers")
-                        .HasForeignKey("Question")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Question");
                 });
 
             modelBuilder.Entity("TestXpert.Models.Question", b =>
                 {
-                    b.HasOne("TestXpert.Models.ApplicationUser", "RelatedUser")
-                        .WithMany("UserQuestions")
-                        .HasForeignKey("ApplicationUser");
-
                     b.HasOne("TestXpert.Models.Test")
                         .WithMany("Questions")
                         .HasForeignKey("TestId");

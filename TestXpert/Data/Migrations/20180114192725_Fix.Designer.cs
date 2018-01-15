@@ -11,9 +11,10 @@ using TestXpert.Data;
 namespace TestXpert.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180114192725_Fix")]
+    partial class Fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,7 +202,7 @@ namespace TestXpert.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ApplicationUser");
+                    b.Property<string>("ApplicationUserId");
 
                     b.Property<int>("CorrectAnswer");
 
@@ -214,7 +215,7 @@ namespace TestXpert.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUser");
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("TestId");
 
@@ -289,9 +290,9 @@ namespace TestXpert.Data.Migrations
 
             modelBuilder.Entity("TestXpert.Models.Question", b =>
                 {
-                    b.HasOne("TestXpert.Models.ApplicationUser", "RelatedUser")
+                    b.HasOne("TestXpert.Models.ApplicationUser")
                         .WithMany("UserQuestions")
-                        .HasForeignKey("ApplicationUser");
+                        .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("TestXpert.Models.Test")
                         .WithMany("Questions")

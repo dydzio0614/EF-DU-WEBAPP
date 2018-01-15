@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@model TestXpert.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "My Questions";
+}
+<h2>Index</h2>
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <h3>Welcome, @UserManager.GetUserName(User)</h3>
+    <p>
+        <a asp-action="Add">Add to list</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                    <th>
+                        Question
+                    </th>
+                    <th>
+                        Points
+                    </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model.UserQuestions)
+    {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Points)
+                </td>
+                <td>
+                    <a asp-action="Unlink" asp-route-id="@item.Id">Unlink</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>Please, login to see your data!</h3>
+}

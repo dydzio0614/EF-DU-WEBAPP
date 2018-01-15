@@ -1,0 +1,13 @@
+@using Microsoft.AspNetCore.Identity
+@using TestXpert.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <li><a asp-area="" asp-controller="UserQuestions" asp-action="Index">My Questions</a></li>
+}
+else
+{
+
+}

@@ -1,0 +1,16 @@
+﻿@model TestXpert.Models.Question
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Unlink from user</h2>
+
+<h3>Are you sure you want to unlink "@Model.Description"?</h3>
+<div>
+    <form asp-action="Unlink">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Unlink" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
