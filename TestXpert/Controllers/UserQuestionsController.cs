@@ -26,8 +26,6 @@ namespace TestXpert.Controllers
         // GET: UserQuestion
         public async Task<ActionResult> Index()
         {
-            //var user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
-
             var user = await _context.Users
             .Include(u => u.UserQuestions)
             .SingleOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
@@ -38,19 +36,17 @@ namespace TestXpert.Controllers
         // GET: UserQuestion/Add
         public async Task<ActionResult> Add()
         {
-            //var user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            var user = await _context.Users
+            .Include(u => u.UserQuestions)
+            .SingleOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
 
-
-            IEnumerable<SelectListItem> allQuestions = _context.Questions.Select(q => new SelectListItem
-            {
-                Value = q.Id.ToString(),
-                Text = q.Description
-            });
-
-            /* TODO: Properly implement removing already existing questions from dropdown list choices
-             * foreach(var item in allQuestions)
-                if(user.UserQuestions.Select(q => q.Id).ToList().Contains(Convert.ToInt32(item.Value)) //"if question id's tied to user contain that item already" */
-
+            IEnumerable<SelectListItem> allQuestions = _context.Questions.Select(q =>
+                new SelectListItem
+                {
+                    Value = q.Id.ToString(),
+                    Text = q.Description
+                })
+                .Where(x => !user.UserQuestions.Select(q => q.Id).Contains(Convert.ToInt32(x.Value))); //final filter to not include these: "if user->questions->id's contain that item already"
 
             ViewBag.dbQuestions = allQuestions;
             return View();
@@ -114,19 +110,21 @@ namespace TestXpert.Controllers
         {
             try
             {
-                var question = await _context.Questions
-                .Include(m => m.Answers)
-                .SingleOrDefaultAsync(m => m.Id == id);
+                var user = await _context.Users
+                .Include(u => u.UserQuestions)
+                .SingleOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
 
-                question.RelatedUser = null;
+                var question = user.UserQuestions.Where(x => x.Id == id).Single(); //get question from user's "related questions" collection point of view
+                user.UserQuestions.Remove(question);
 
-                _context.Update(question);
+                _context.Update(user);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteIf(ex is InvalidOperationException, ex.Message);
                 return View();
             }
         }
