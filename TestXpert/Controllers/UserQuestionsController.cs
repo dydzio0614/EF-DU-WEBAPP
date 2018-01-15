@@ -23,7 +23,10 @@ namespace TestXpert.Controllers
             _userManager = userManager;
         }
 
-        // GET: UserQuestion
+        /// <summary>
+        /// Prepares index page for User-Question management by binding currently logged user to model
+        /// </summary>
+        /// <returns>Page with data and Add/Unlink operations for current account, or "user not logged in" page if no registered user detected</returns>
         public async Task<ActionResult> Index()
         {
             var user = await _context.Users
@@ -33,7 +36,10 @@ namespace TestXpert.Controllers
             return View(user);
         }
 
-        // GET: UserQuestion/Add
+        /// <summary>
+        /// Prepares view with dropdown list to pick question to link to user
+        /// </summary>
+        /// <returns>View with all questions in form usable by dropdown list in ViewBag.dbQuestions if used by registered user, or "user non logged in" page</returns>
         public async Task<ActionResult> Add()
         {
             var user = await _context.Users
@@ -52,7 +58,11 @@ namespace TestXpert.Controllers
             return View();
         }
 
-        // POST: UserQuestion/Add
+        /// <summary>
+        /// Add User-Question connection based on dropdown list choice
+        /// </summary>
+        /// <param name="collection">Collection containing data from all HTML controls, should be one item with question ID</param>
+        /// <returns>Index page on successful update, stays on previous view otherwise</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Add(IFormCollection collection)
@@ -83,7 +93,11 @@ namespace TestXpert.Controllers
             }
         }
 
-        // GET: UserQuestion/Unlink/5
+        /// <summary>
+        /// Shows User-Question connection removal page, passes question object based on id to view
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Confirmation view, "NotFound" page if no item to delete passed or empty page on abnormal usage, including unregistered user access</returns>
         public async Task<IActionResult> Unlink(int? id)
         {
             if (id == null)
@@ -103,7 +117,11 @@ namespace TestXpert.Controllers
             return View(question);
         }
 
-        // POST: UserQuestion/Unlink/5
+        /// <summary>
+        /// Removes User-Question connection after confirmation
+        /// </summary>
+        /// <param name="id">question id to be unlinked, passed from view</param>
+        /// <returns>Index view on correct usage, empty page otherwise</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Unlink(int id)
