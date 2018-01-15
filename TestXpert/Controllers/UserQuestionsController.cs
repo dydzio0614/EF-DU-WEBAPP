@@ -26,7 +26,12 @@ namespace TestXpert.Controllers
         // GET: UserQuestion
         public async Task<ActionResult> Index()
         {
-            var user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            //var user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+
+            var user = await _context.Users
+            .Include(u => u.UserQuestions)
+            .SingleOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
+
             return View(user);
         }
 
@@ -82,21 +87,41 @@ namespace TestXpert.Controllers
             }
         }
 
-
         // GET: UserQuestion/Unlink/5
-        public ActionResult Unlink(int id)
+        public async Task<IActionResult> Unlink(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var question = await _context.Questions
+                .Include(m => m.Answers)
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (question == null)
+            {
+                return NotFound();
+            }
+
+            return View(question);
         }
 
         // POST: UserQuestion/Unlink/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Unlink(int id, IFormCollection collection)
+        public async Task<IActionResult> Unlink(int id)
         {
             try
             {
-                // TODO: Add Unlink logic here
+                var question = await _context.Questions
+                .Include(m => m.Answers)
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+                question.RelatedUser = null;
+
+                _context.Update(question);
+                await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }

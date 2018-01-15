@@ -12,6 +12,7 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
+    <h3>Welcome, @UserManager.GetUserName(User)</h3>
     <p>
         <a asp-action="Add">Add to list</a>
     </p>
